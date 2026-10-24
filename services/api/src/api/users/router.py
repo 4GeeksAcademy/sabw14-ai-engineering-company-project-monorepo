@@ -9,9 +9,7 @@ router = APIRouter(prefix="/users", tags=["users"])
 
 
 @router.post("", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-def create_user(data: UserCreate, current_user: CurrentUser):
-    if current_user["role"] != Role.admin.value:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Only admins can create users")
+def create_user(data: UserCreate):
     try:
         return service.create_user(data)
     except service.EmailAlreadyExistsError:
