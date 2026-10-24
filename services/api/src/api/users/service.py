@@ -25,7 +25,7 @@ def list_users() -> list[dict]:
     return users_table().all()
 
 
-def create_user(data: UserCreate) -> dict:
+def create_user(data: UserCreate, role: Role = Role.user) -> dict:
     email = data.email.lower()
     if get_user_by_email(email):
         raise EmailAlreadyExistsError(email)
@@ -35,7 +35,7 @@ def create_user(data: UserCreate) -> dict:
         "email": email,
         "hashed_password": hash_password(data.password),
         "is_active": True,
-        "role": Role.user.value,
+        "role": role.value,
         "created_at": datetime.now(UTC).isoformat(),
     }
     users_table().insert(user)
