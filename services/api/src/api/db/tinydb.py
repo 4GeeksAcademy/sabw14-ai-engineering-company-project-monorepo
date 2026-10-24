@@ -20,3 +20,7 @@ def users_table() -> Table:
 
 def profiles_table() -> Table:
     return get_db().table("profiles")
+
+
+def items_table() -> Table:
+    return get_db().table("items")
