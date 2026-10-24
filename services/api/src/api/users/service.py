@@ -1,9 +1,9 @@
 import uuid
 from datetime import UTC, datetime
 
-from passlib.hash import bcrypt
 from tinydb import Query
 
+from api.core.security import hash_password
 from api.db.tinydb import profiles_table, users_table
 from api.users.models import Role
 from api.users.schemas import UserCreate
@@ -33,7 +33,7 @@ def create_user(data: UserCreate) -> dict:
     user = {
         "id": str(uuid.uuid4()),
         "email": email,
-        "hashed_password": bcrypt.hash(data.password),
+        "hashed_password": hash_password(data.password),
         "is_active": True,
         "role": Role.user.value,
         "created_at": datetime.now(UTC).isoformat(),
